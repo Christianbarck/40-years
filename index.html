@@ -17,11 +17,19 @@
             font-size: 2.5em;
             color: #1d3557;
         }
-        #countdown {
+        .buttons {
             text-align: center;
-            font-size: 1.2em;
-            margin-bottom: 1em;
-            color: #555;
+            margin-bottom: 1.5em;
+        }
+        .buttons button {
+            margin: 0.3em;
+            padding: 0.5em 1em;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            background-color: #457b9d;
+            color: white;
+            border-radius: 4px;
         }
         .clue {
             background-color: #fff;
@@ -43,37 +51,44 @@
     </style>
 </head>
 <body>
-    <h1>✨ Vart är vi på väg? Josephien fyller 40 år!!!! ✨</h1>
-    <div id="countdown">Nästa ledtråd visas om: <span id="timer">-</span></div>
+    <h1>✨ Vart är vi på väg? ✨</h1>
+    <div class="buttons">
+        <button onclick="showClue(0)">10 poäng</button>
+        <button onclick="showClue(1)">8 poäng</button>
+        <button onclick="showClue(2)">6 poäng</button>
+        <button onclick="showClue(3)">4 poäng</button>
+        <button onclick="showClue(4)">2 poäng</button>
+        <button onclick="showClue(5)">1 poäng</button>
+    </div>
 
-    <div class="clue" data-time="10:00">
+    <div class="clue">
         <h2>10 poäng</h2>
         <p>Vi reser norrut från hemmets trygga hamn, mot en plats där ljuset aldrig riktigt slocknar på sommaren, och där vintern bäddar in allt i tyst, blågrå skymning. Här är naturen både vän och vild – och stjärnhimlen kan plötsligt börja dansa.<br>Vi är kvar i Skandinavien, men har lämnat både kungahus och köttbullar bakom oss.</p>
     </div>
 
-    <div class="clue" data-time="10:02">
+    <div class="clue">
         <h2>8 poäng</h2>
         <p>Här trivs både fiskare och forskare, turister och torsk. Staden vilar vid havet, insvept i fjäll – och här smakar räkorna bättre än på någon midsommartallrik.<br>Om du har tur kan du i vintermörkret se färger flamma över himlen. Det är kallt – men du kommer inte vilja gå in.</p>
     </div>
 
-    <div class="clue" data-time="10:04">
+    <div class="clue">
         <h2>6 poäng</h2>
         <p>Nu hör vi tunga andetag från havet. Stora svarta ryggar bryter ytan. De jagar sill i samarbete och visslar under vattnet.<br>Den här platsen är en av världens bästa för att möta späckhuggare på nära håll.</p>
     </div>
 
-    <div class="clue" data-time="10:06">
+    <div class="clue">
         <h2>4 poäng</h2>
         <p>Vår destination ligger ovanför polcirkeln, men är ändå en livlig stad med restauranger, barer och en linbana till fjälls. Det är också här du kan sitta i bastun och titta på norrskenet. Ett riktigt vinterparadis – perfekt för två.</p>
     </div>
 
-    <div class="clue" data-time="10:08">
+    <div class="clue">
         <h2>2 poäng</h2>
         <p>Vi är i Nordnorge. Den arktiska katedralens trekantiga siluett tornar upp sig och havet glittrar kallt i vintersolen.<br>Stadens namn börjar på T och påminner om ordet "dröm".</p>
     </div>
 
-    <div class="clue" data-time="10:01">
+    <div class="clue">
         <h2>1 poäng</h2>
-        <p>🎉 Grattis – du ska till <strong>Tromsø</strong>!<br>I din födelsedagspresent ingår: en weekendresa, flyg, boende på Scandic Ishavshotel, fantastisk mat och dryck – och en oförglömlig späckhuggarsafari. <br>Allt för att fira dig och dina 40 strålande år. ❄️🐋✈️</p>
+        <p>🎉 Grattis – du ska till <strong>Tromsø</strong>!<br>I din födelsedagspresent ingår: en weekendresa, flyg, boende på Scandic Ishavshotel, fantastisk mat och dryck – och en oförglömlig späckhuggarsafari på lördagen. <br>Allt för att fira dig och dina 40 strålande år. ❄️🐋✈️</p>
     </div>
 
     <footer>
@@ -81,37 +96,13 @@
     </footer>
 
     <script>
-        const countdownEl = document.getElementById("timer");
+        const clues = document.querySelectorAll('.clue');
 
-        function checkTimeAndShowClues() {
-            const now = new Date();
-            const currentMinutes = now.getHours() * 60 + now.getMinutes();
-            let nextClueTime = null;
-
-            document.querySelectorAll('.clue').forEach(clue => {
-                const [hour, minute] = clue.dataset.time.split(":").map(Number);
-                const clueMinutes = hour * 60 + minute;
-                if (currentMinutes >= clueMinutes) {
-                    clue.classList.add('active');
-                } else {
-                    if (!nextClueTime || clueMinutes < nextClueTime) {
-                        nextClueTime = clueMinutes;
-                    }
-                }
+        function showClue(index) {
+            clues.forEach((clue, i) => {
+                clue.classList.toggle('active', i === index);
             });
-
-            if (nextClueTime !== null) {
-                const minutesLeft = nextClueTime - currentMinutes;
-                const hours = Math.floor(minutesLeft / 60);
-                const mins = minutesLeft % 60;
-                countdownEl.textContent = `${hours}h ${mins}min`;
-            } else {
-                countdownEl.textContent = "Alla ledtrådar har visats.";
-            }
         }
-
-        checkTimeAndShowClues();
-        setInterval(checkTimeAndShowClues, 60000);
     </script>
 </body>
 </html>
